@@ -1,21 +1,17 @@
 package com.cNealgithub.hospitalManager.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Patients {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +20,11 @@ public class Patients {
     private LocalDate dateOfBirth;
     private int age;
     private String gender;
-
+    private String bloodGroup;
+    @OneToOne(cascade = {CascadeType.MERGE ,CascadeType.PERSIST})//owning side
+    private Insurance insurance;
+    @OneToMany(mappedBy = "patient")
+    private List<Appointment> appointment;
     @Override
     public String toString() {
         return "patients{" +
