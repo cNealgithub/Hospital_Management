@@ -25,4 +25,13 @@ public class InsuranceServiceImpl implements InsuranceService {
         insurance.setPatient(patient);//this to maintain bidirectional consistency, yet it will work without this line too.
         return patient;
     }
+
+    @Override
+    @Transactional
+    public Patients disAssociateInsurance(Long patientId) {
+        Patients patient = patientsRepository.findById(patientId)
+                .orElseThrow(() -> new EntityNotFoundException("Patient not found with id: " + patientId));
+        patient.setInsurance(null);
+        return patient;
+    }
 }

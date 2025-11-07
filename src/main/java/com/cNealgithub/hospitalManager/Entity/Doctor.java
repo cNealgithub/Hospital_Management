@@ -3,7 +3,9 @@ package com.cNealgithub.hospitalManager.Entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -25,4 +27,7 @@ public class Doctor {
     private String email;
     @ManyToMany(mappedBy = "doctors")
     private Set<Department> departments = new HashSet<>();
+    @OneToMany(mappedBy = "doctor")
+    @ToString.Exclude
+    private List<Appointment> appointments = new ArrayList<>();
 }

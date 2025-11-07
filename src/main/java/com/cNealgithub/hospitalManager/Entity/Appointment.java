@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@Builder
 public class Appointment {
 
     @Id
@@ -25,4 +25,14 @@ public class Appointment {
     @ManyToOne
     @JoinColumn(nullable = false)
     private Doctor doctor;
+
+    @Override
+    public String toString() {
+        return "Appointment{" +
+                "id=" + id +
+                ", appointmentTime=" + appointmentTime +
+                ", reason='" + reason + '\'' +
+                ", doctor=" + doctor.getName() +
+                '}';
+    }
 }

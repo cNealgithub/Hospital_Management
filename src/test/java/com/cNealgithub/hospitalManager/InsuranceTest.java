@@ -1,6 +1,7 @@
 package com.cNealgithub.hospitalManager;
 
 import com.cNealgithub.hospitalManager.Entity.Insurance;
+import com.cNealgithub.hospitalManager.Entity.Patients;
 import com.cNealgithub.hospitalManager.Service.InsuranceService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,5 +22,10 @@ public class InsuranceTest {
                 .validUntil(LocalDate.of(2025, 12, 12))
                 .build();
         insuranceService.assignInsuranceToPatient(insurance, 1);
+    }
+    @Test
+    public void disaccociate() {
+        Patients patient = insuranceService.disAssociateInsurance(1L);
+        System.out.println(patient);
     }
 }
