@@ -16,5 +16,6 @@ public class patientsDTO {
     private LocalDate dateOfBirth;
     private int age;
     private String gender;
+    private String bloodGroup;
 
 }

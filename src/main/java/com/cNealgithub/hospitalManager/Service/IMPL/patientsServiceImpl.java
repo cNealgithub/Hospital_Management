@@ -26,7 +26,7 @@ public class patientsServiceImpl implements patientsService {
         List<Patients> allPatients = patientsRepository.findAll();
         List<patientsDTO> allPatientsDTO = allPatients
                 .stream()
-                .map(Patients -> new patientsDTO(Patients.getId(), Patients.getName(), Patients.getDateOfBirth(), Patients.getAge(), Patients.getGender()))
+                .map(Patients -> new patientsDTO(Patients.getId(), Patients.getName(), Patients.getDateOfBirth(), Patients.getAge(), Patients.getGender(),Patients.getBloodGroup()))
                 .toList();
         return allPatientsDTO;
     }

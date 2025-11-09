@@ -1,7 +1,10 @@
 package com.cNealgithub.hospitalManager.Controller;
 
+import com.cNealgithub.hospitalManager.DTO.AppointmentDTO;
+import com.cNealgithub.hospitalManager.DTO.createAppointmentDTO;
 import com.cNealgithub.hospitalManager.DTO.patientsDTO;
 import com.cNealgithub.hospitalManager.DTO.registerPatientDTO;
+import com.cNealgithub.hospitalManager.Service.AppointmentService;
 import com.cNealgithub.hospitalManager.Service.patientsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +17,11 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/hospital")
+@RequestMapping("/private/api/hospital")
 public class patientsController {
 
     private final patientsService patientsService;
+    private final AppointmentService appointmentService;
 
     @GetMapping("/patientsList")
     public ResponseEntity<List<patientsDTO>> getAllPatientsList(){
@@ -43,5 +47,10 @@ public class patientsController {
     @PatchMapping("/patchUpdate/{id}")
     public ResponseEntity<patientsDTO> patchUpdatePatient(@PathVariable long id, @RequestBody Map<String, Object> updates){
         return ResponseEntity.ok(patientsService.patchUpdate(id, updates));
+    }
+    @PostMapping("/newAppointment")
+    public ResponseEntity<createAppointmentDTO> createNewApointment(@RequestBody createAppointmentDTO createAppointmentDTO){
+        System.out.println(createAppointmentDTO.getPatientId());
+        return ResponseEntity.status(HttpStatus.CREATED).body(appointmentService.createNewAppointment(createAppointmentDTO));
     }
 }

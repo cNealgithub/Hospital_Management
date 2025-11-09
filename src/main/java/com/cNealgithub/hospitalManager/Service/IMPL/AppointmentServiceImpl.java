@@ -1,5 +1,6 @@
 package com.cNealgithub.hospitalManager.Service.IMPL;
 
+import com.cNealgithub.hospitalManager.DTO.createAppointmentDTO;
 import com.cNealgithub.hospitalManager.Entity.Appointment;
 import com.cNealgithub.hospitalManager.Entity.Doctor;
 import com.cNealgithub.hospitalManager.Entity.Patients;
@@ -10,7 +11,10 @@ import com.cNealgithub.hospitalManager.Service.AppointmentService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +23,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     private final DoctorRepository doctorRepository;
     private final AppointmentRepository appointmentRepository;
     private final patientsRepository patientsRepository;
+    private final ModelMapper modelMapper;
 
     @Override
     @Transactional
@@ -49,6 +54,28 @@ public class AppointmentServiceImpl implements AppointmentService {
         doctor.getAppointments().add(appointment);
 
         return appointment;
+    }
+
+    @Override
+    public createAppointmentDTO createNewAppointment(createAppointmentDTO createAppointmentDTO) {
+        long patientId = createAppointmentDTO.getPatientId();
+        long doctorId = createAppointmentDTO.getDoctorId();
+
+        Patients patient = patientsRepository.findById(patientId)
+                .orElseThrow(() -> new EntityNotFoundException("Patient Not Found with id: " + patientId));
+        Doctor doctor = doctorRepository.findById(doctorId)
+                .orElseThrow(() -> new EntityNotFoundException("Doctor Not Found with id:" + doctorId));
+        Appointment appointment = Appointment.builder()
+                .appointmentTime(createAppointmentDTO.getAppointmentTime())
+                .reason(createAppointmentDTO.getReason())
+                .build();
+        appointment.setPatient(patient);
+        appointment.setDoctor(doctor);
+        patient.getAppointments().add(appointment);
+
+        appointment = appointmentRepository.save(appointment);
+        System.out.println(patient.getId());
+        return modelMapper.map(appointment, createAppointmentDTO.class);
     }
 
 }
