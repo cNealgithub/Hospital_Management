@@ -12,7 +12,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class Patients {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

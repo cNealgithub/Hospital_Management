@@ -33,7 +33,8 @@ public class patientsServiceImpl implements patientsService {
 
     @Override
     public patientsDTO getPatientById(long id) {
-        Patients patients = patientsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Patient not found with id : " + id));
+        Patients patients = patientsRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Patient not found with id : " + id));
         return modelMapper.map(patients, patientsDTO.class);
     }
 
