@@ -1,6 +1,7 @@
 package com.cNealgithub.hospitalManager.Security;
 
 import com.cNealgithub.hospitalManager.Entity.User;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,5 +27,16 @@ public class AuthUtil {
                 .expiration(new Date(System.currentTimeMillis() + 1000*60*10))
                 .signWith(getSecretKey())
                 .compact();
+    }
+
+    public String getUsernameFromToken(String token) {
+        //clean trailing spaces from the username in the subject to dodge error
+        String cleanedToken = token.trim().replaceAll("\\s", "");
+        Claims claims = Jwts.parser()
+                .verifyWith(getSecretKey())
+                .build()
+                .parseSignedClaims(cleanedToken)
+                .getPayload();
+        return claims.getSubject();
     }
 }
